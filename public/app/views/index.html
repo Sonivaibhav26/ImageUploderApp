@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ng-croppie.min.css">
+
+    <!-- Angular js -->
+    <script src="assets/js/angular.js"></script>
+    <script src="assets/js/ng-croppie.min.js"></script>
+
+    <script src="app/app.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <title>Image Uploader</title>
+</head>
+
+<body ng-app="app" ng-controller="appCtrl as main">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#gallery" role="tab" data-toggle="tab">gallery</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#upload" role="tab" data-toggle="tab">upload</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="gallery">
+            <button type="button" class="btn btn-primary" ng-click="getList()">Refresh</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="file in files">
+                        <td>{{file.name}}</td>
+                        <td><a href="#" ng-click="displayImage(file.path_lower)">view</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div class="container">
+                <h4>Image view</h4>
+                <img id="image" src="" alt="">
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="upload">
+            <input type="file" id="fileInput" /> "Scroll Down for a preview" "Use Slider Or Mouse to Zoon In or Zoom Out"
+            <div>
+                <button type="button" class="btn btn-primary" ng-click="mode='horizontal'">Horizontal</button>
+                <button type="button" class="btn btn-primary" ng-click="mode='vertical'">Vertical</button>
+                <button type="button" class="btn btn-primary" ng-click="mode='horizontalSmall'">Horizontal Small</button>
+                <button type="button" class="btn btn-primary" ng-click="mode='gallery'">Gallery</button>
+                <button type="button" class="btn btn-success" ng-click="upload()">upload</button> status:{{status}}
+            </div>
+            <div ng-show="mode === 'horizontal'">
+                <ng-croppie src="inputImage" ng-model='outputImagehorizontal' update='onUpdate' boundry="{w: 1024, h: 1024}" viewport="{w: 755, h: 450}"
+                    orientation="true" rotation="90" type="square" zoom="true" mousezoom="true" zoomslider="true">
+                </ng-croppie>
+                <hr>
+                <div class="container">
+                    <h4>Image preview</h4>
+                    <img ng-src="{{outputImagehorizontal}}" />
+                </div>
+            </div>
+
+            <div ng-show="mode === 'vertical'">
+                <ng-croppie src="inputImage" ng-model='outputImagevertical' update='onUpdate' boundry="{w: 1024, h: 1024}" viewport="{w: 365, h: 450}"
+                    orientation="true" rotation="90" type="square" zoom="true" mousezoom="true" zoomslider="true">
+                </ng-croppie>
+                <hr>
+                <div class="container">
+                    <h4>Image preview</h4>
+                    <img ng-src="{{outputImagevertical}}" />
+                </div>
+            </div>
+
+            <div ng-show="mode === 'horizontalSmall'">
+                <ng-croppie src="inputImage" ng-model='outputImagehorizontalSmall' update='onUpdate' boundry="{w: 1024, h: 1024}" viewport="{w: 365, h: 212}"
+                    orientation="true" rotation="90" type="square" zoom="true" mousezoom="true" zoomslider="true">
+                </ng-croppie>
+                <hr>
+                <div class="container">
+                    <h4>Image preview</h4>
+                    <img ng-src="{{outputImagehorizontalSmall}}" />
+                </div>
+            </div>
+
+            <div ng-show="mode === 'gallery'">
+                <ng-croppie src="inputImage" ng-model='outputImagegallery' update='onUpdate' boundry="{w: 1024, h: 1024}" viewport="{w: 380, h: 380}"
+                    orientation="true" rotation="90" type="square" zoom="true" mousezoom="true" zoomslider="true">
+                </ng-croppie>
+                <hr>
+                <div class="container">
+                    <h4>Image preview</h4>
+                    <img ng-src="{{outputImagegallery}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
